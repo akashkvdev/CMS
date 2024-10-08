@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="row mt-5">
+      <div class="col">
+         <h6 class="mt-4 text-dark" style="font-weight: 600;">ALL <span class="text-danger">COMPLAINS</span></h6>
+      </div>
+  </div>
+
+
+
+  <div class="row mt-5">
+      <div class="col">
+        <div class="table-responsive">
+          <input type="text" class="float-right mb-2 mr-4 rounded-pill" style="width: 25%; height:40px" placeholder="Search Reference Number" [(ngModel)]="searchReferenceNumber">
+          <table class="table table-bordered">
+              <thead>
+                <tr class="bg-dark text-white">
+                  <th>Sl No</th>
+                  <th>Complaint Category</th>
+                  <th>Department Name</th>
+                  <th>Refrence No</th>
+                  <th>Complints Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of allComplains|paginate:{itemsPerPage: itemsPerPage, currentPage: p, totalItems: allComplains.length } index as i" [hidden]="!matchesSearch(data)">
+                  <td>{{ (p - 1) * itemsPerPage + i + 1 }}</td>
+                  <td>{{data.category_name}}</td>
+                  <td>{{data.dept_name}}</td>
+                  <td>{{data.complaints_ref_no}}</td>
+                  <td>{{data.complaint_date}}</td>
+                  <td>{{data.complain_status_name}}</td>
+                  <td class="d-sm-flex">
+                    <button class="btn btn-success" style="font-size: 11px;" [disabled]="data.complain_status_name=='Solved'" data-toggle="modal" data-target="#exampleModal" (click)="FetchSingleComplains(data.id)">View Complain</button>
+                    <button class="btn btn-secondary mx-2" style="font-size: 11px;" [disabled]="data.complain_status_name=='Solved'" [routerLink]="['../assign_complain',data.id]" >Assign Complain</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="onPageChange($event)" ></pagination-controls>
+
+        </div>
+      </div>
+  </div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">View Complain</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngIf="singleComplains">
+          <div class="col-md-6">
+              <p>Complain No:{{singleComplains.complaints_ref_no}}</p>
+              <p>Complained by:{{singleComplains.entry_by_name}}</p>
+              <!-- <img height="100px" width="100px" src="http://192.168.50.250:9000/ComplaintsFile/{{singleComplains.complaints_file}}" /> -->
+              <p>Document: <a [href]="getDownloadLink(singleComplains.complaints_file)" download target="_blank"> <b class="text-primary"><u>Download</u></b></a></p>
+              <p>Department:{{singleComplains.dept_name}}</p>
+          </div>
+          <div class="col-md-6">
+              <p>DOC:{{singleComplains.complaint_date}}</p>
+              <p>Desc: {{singleComplains.complaints_desc}}</p>
+              <p>Status:{{singleComplains.complain_status_name}}</p>
+              <p>Action:{{singleComplains.complain_status_name}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <select  class="form-control mt-2" #cmplnstatus>
+            <option  [value]="status_id">{{status_name}}</option>
+            <option *ngFor="let data of get_status" name="statusName"  [value]="data.id" >{{data.complain_status_name}}</option>
+          </select>
+          <input  type="text" #cmplncmnt class="form-control mt-2" placeholder="comment">
+          <input  type="file" (change)="getFile($event)" name="file" class="form-control mt-2" placeholder="Upload file">
+        </div>
+      </div>
+      <div class="modal-footer" *ngIf="singleComplains">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="UpdateSingleData(singleComplains.id,cmplnstatus.value,cmplncmnt.value)">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+

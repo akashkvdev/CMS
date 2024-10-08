@@ -1,0 +1,26 @@
+@media print {
+    .printcsv {
+      display: none;
+    }
+    .pagination{
+      display: none;
+    }
+    .elsePart{
+        display: none;
+    }
+    .centerheading{
+        text-align: center ;
+        font-size: 25px;
+        margin-bottom: 3%;
+    }
+    th{
+        color: black;
+    }
+  }
+
+  .pagination .page-item.disabled .page-link {
+    pointer-events: none;
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: #6c757d;
+  }

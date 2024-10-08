@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row mt-5">
+      <div class="col">
+         <h6 class="mt-4 text-dark" style="font-weight: 600;">PROCESSED <span class="text-danger">COMPLAINTS</span></h6>
+      </div>
+  </div>
+
+  <div class="col-sm printcsv xp mt-5" align="right">
+    <!-- <span>Pages For Print: <select class="form-select" [(ngModel)]="selectedPages" (change)="onPagesSelectionChange()">
+      <option *ngFor="let page of getPages()" [value]="page">{{ page }}</option>
+    </select></span> -->
+    <span>
+      <input class="print" type="text" class="print" [(ngModel)]="searchSolved" placeholder="Search..">
+    </span>  
+  
+    <!-- <a (click)="CSVsolvedReport()"><i class="fa-solid fa-file-excel fa-2xl p-2" style="color:green;"></i></a> -->
+    <a class="print" (click)="Printprocessed()"> <i class="fa-solid fa-print fa-2xl p-2"></i></a>
+  </div>
+
+
+  <div class="row mt-5">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+              <thead>
+                <tr class="bg-dark text-white">
+                  <th>Slno</th>
+                  <th>Category</th>
+                  <th>Department</th>
+                  <th>Refrence No</th>
+                  <th>Complaints Date</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th class="print">Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="DetailArray.message!=0;else block">
+                <!-- <div *ngIf="status_code == 0; elseBlock"> -->
+                <tr *ngFor="let DetailItem of DetailArray.data| ProcessedComplaint:searchSolved |paginate:{itemsPerPage: itemsPerPage, currentPage: p, totalItems: DetailArray.data.length } ; let i=index;">
+                  <td>{{ (p - 1) * itemsPerPage + i + 1 }}</td>
+                  <td>{{DetailItem.category_name}}</td>
+                  <td>{{DetailItem.dept_name}}</td>
+                  <td>{{DetailItem.complaints_ref_no}}</td>
+                  <td>{{DetailItem.complaint_date}}</td>
+                  <td>{{DetailItem.complaints_desc}}</td>
+                  <td class="text-success"><b>{{DetailItem.complain_status_name}}</b></td>
+                  <td class="print"><span (click)="view(DetailItem.id)" data-toggle="modal" data-target="#exampleModal" style="cursor:pointer;font-size: 15px;color:#17a2b8"><i class="fa-solid fa-circle-info"></i></span></td>
+                  <!-- <td class="d-sm-flex"><button (click)="view(DetailItem.id)" class="btn btn-success" style="font-size: 11px;" data-toggle="modal" data-target="#exampleModal">View Complain</button></td> -->
+                </tr>
+                <!-- <div>
+                  <p>{{ DetailItem.message }}</p>
+                </div> -->
+              <!-- </div> -->
+              <!-- <ng-template #elseBlock>
+                 <tr> No Data Available</tr>
+              </ng-template> -->
+              </tbody>
+              <ng-template #block>
+                <tr class="text-danger" style="text-align: center;"><td colspan="8"><b>{{DetailArray.data}}</b></td></tr>
+         </ng-template>
+            </table>
+            <pagination-controls class="print" (pageChange)="onPageChange($event)"></pagination-controls>
+
+        </div>
+      </div>
+  </div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">View Complain</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngIf="data">
+          <div class="col-md-6" >
+              <!-- <p>Complain_id:{{data.id}}</p> -->
+              <p>Complained by: {{data.entry_by_name}}</p>
+              <p>Document:<img [src]=""> <a href="{{imageDirectoryPath}}/{{data.complaints_file}}"
+                target="_blank">{{data.complaints_file}}</a><b class="text-primary"><u>Download</u></b></p>
+              <p>Department: &nbsp;{{data.dept_name}}</p>
+          </div>
+          <div class="col-md-6">
+              <p>Complained Date:{{data.complaint_date| date}} </p>
+              <p>Desc:{{data.complaints_desc}}</p>
+              <p>Status: <span class="text-success"><b>{{data.complain_status_name}}</b></span> </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,46 @@
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col">
+            <h6 class="mt-4 text-dark" style="font-weight: 600;">RAISE <span class="text-danger">COMPLAINT</span></h6>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <form [formGroup]="loginForm" (ngSubmit)="raiscomplains()">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Complaint Category</label>
+                <select class="form-select form-control" formControlName="complain_category_id">
+                    <option value="">--Select--</option>
+                    <option *ngFor="let catdata of getcatdata" value="{{catdata.id}}">{{catdata.category_name}}</option>
+                </select>
+                <span *ngIf="loginForm.get('complain_category_id')?.hasError('required')" class="text-danger" style="font-size: 12px;">Complaint Category is required.</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="exampleInputPassword1">Complaint Description</label>
+                <textarea class="form-control" formControlName="complaints_desc" id="exampleInputPassword1" cols="30" rows="5"></textarea>
+                <span *ngIf="loginForm.get('complaints_desc')?.hasError('required')" class="text-danger" style="font-size: 12px;">Complaint Description is required.</span>
+            </div>
+          
+            
+                <label for="exampleInputPassword1">Upload Document (If any)</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" formControlName="complaints_file" (change)="fileupload($event)" class="custom-file-input" id="inputGroupFile02">
+                        <label class="custom-file-label" for="inputGroupFile02">{{ fileName|| 'Choose file' }}</label>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="">Upload</span>
+                    </div>
+                </div>
+                
+  
+                <div class="">
+                    <button type="submit" class="btn btn-dark">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  

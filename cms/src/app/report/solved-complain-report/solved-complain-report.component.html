@@ -1,0 +1,133 @@
+<div class="container">
+  <div class="row mt-5">
+      <div class="col">
+         <h6 class="mt-4 text-dark centerheading" style="font-weight: 600;">SOLVED <span class="text-danger">COMPLAINTS  REPORT</span></h6>
+      </div>
+  </div>
+
+
+<!-- your-component.component.html -->
+
+<div class="col-sm printcsv xp mt-5" align="right">
+  <!-- <span>Pages For Print: <select class="form-select" [(ngModel)]="selectedPages" (change)="onPagesSelectionChange()">
+    <option *ngFor="let page of getPages()" [value]="page">{{ page }}</option>
+  </select></span> -->
+  <span>
+    <input type="text" [(ngModel)]="searchSolved" placeholder="Search..">
+  </span>  
+
+  <a (click)="CSVsolvedReport()"><i class="fa-solid fa-file-excel fa-2xl p-2" style="color:green;"></i></a>
+  <a (click)="PrintsolvedReport()"> <i class="fa-solid fa-print fa-2xl p-2"></i></a>
+</div>
+
+<div class="row mt-2">
+  <div class="col">
+    <ng-container  *ngIf="paginatedComplaints.length > 0; else noData">
+    <div class="table-responsive" >
+      <table class="table table-bordered">
+        <thead>
+          <tr class="bg-dark text-white">
+            <th>Sl No</th>
+            <th>Complaint Category</th>
+            <th>Department Name</th>
+            <th>Refrence No</th>
+            <th>Complints Date</th>
+            <th>Complain Description</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of paginatedComplaints |solvedComplaint:searchSolved ;let i = index">
+            <td>{{a.id}}</td>
+            <td>{{a.category.category_name ?? 'NA'}}</td>
+            <td>{{a.dept_name ?? 'NA'}}</td>
+            <td>{{a.complaints_ref_no ?? 'NA'}}</td>
+            <td>{{a.complaint_date ?? 'NA'}}</td>
+            <td>{{a.complaints_desc ?? 'NA'}}</td>
+            <td>{{a.status.complain_status_name ?? 'NA'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+   <!-- Pagination controls -->
+<!-- Pagination controls -->
+<!-- Pagination controls -->
+<!-- Pagination controls -->
+<nav aria-label="Page navigation pagina">
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a class="page-link" (click)="onPageChange(currentPage - 1)" aria-label="Previous">
+        <span aria-hidden="true">&laquo; Previous</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <span class="page-link">Page {{ currentPage }}</span>
+    </li>
+    <li class="page-item" [class.disabled]="currentPage === getPages().length">
+      <a class="page-link" (click)="onPageChange(currentPage + 1)" aria-label="Next">
+        <span aria-hidden="true">Next &raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
+</ng-container>
+
+
+    <ng-template #noData>
+      <div class="alert alert-dark mt-3 elsePart" role="alert">
+        <h4 class="alert-heading text-center text-danger">No Data Found!</h4>
+        <p class="text-center text-danger">Sorry, there is no data available at the moment.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">View Complain   &nbsp;&nbsp;<i class="fa-solid fa-print"></i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+              <p>Complain_id:</p>
+              <p>Complained_by:</p>
+              <p>Document: <b class="text-primary"><u>Download</u></b></p>
+              <p>Department:</p>
+          </div>
+          <div class="col-md-6">
+              <p>Date-of-complain:</p>
+              <p>Desc:</p>
+              <p>Status:</p>
+              <p>Action:</p>
+          </div>
+        </div>
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+

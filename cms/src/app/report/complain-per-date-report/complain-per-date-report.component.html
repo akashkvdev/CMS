@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row mt-5">
+      <div class="col">
+         <h6 class="mt-4 text-dark" style="font-weight: 600;">COMPLAINT <span class="text-danger">PER DATE</span></h6>
+      </div>
+  </div>
+
+  <div class="row justify-content-center xp" >
+      <div class="col-md-10">
+          <!-- <div class="card"> -->
+              <div class="card-body p-4 text-black row g-3">
+                  <div class="col-md-4">
+                    <!-- <label for="inputState" class="form-label" >From:</label> -->
+                 <!-- <input type="date" class="form-control" name="fdate" #fDate > -->
+                 <input type="date" name="fdate"
+                          class="form-control text-center" #fDate placeholder="Enter Date From">
+                  </div>
+                  <div class="col-md-4">
+                      <!-- <label for="inputState" class="form-label">To:</label> -->
+                   <!-- <input type="date" class="form-control" name="tdate" #tDate> -->
+                   <input type="date" class="form-control text-center" name="tdate" #tDate placeholder="Enter Date To">
+                    </div>
+
+                  <div class="col-md-2" >
+                    <button class="button1 mb-3" type="submit"(click)=" AllComplainsPerDate(fDate.value,tDate.value)">
+                     Search
+                    </button>
+                  </div>
+           </div>
+      </div>
+
+  </div>
+  <div class="col-sm printcsv xp mt-5" align="right">
+      <!-- <a ><i class="fa-solid fa-file-excel fa-2xl p-2" style="color:green;"></i></a> -->
+      <a (click)="printDiv()"><i class="fa-solid fa-print fa-2xl p-2" style="color: green;"></i></a>
+   </div>
+   <div *ngIf="noDataFound" class="no-data-found">
+    <p class="centered-text red-text"><b>No data found </b></p>
+  </div>
+  <div class="row mt-2" #printableDiv>
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+              <thead>
+               <tr class="bg-dark text-white">
+                  <th>Sl No</th>
+                  <th>Complaint Category</th>
+                  <th>Department Name</th>
+                  <th>Refrence No</th>
+                  <th>Complaint Date</th>
+                  <th>Description</th>
+                  </tr>
+              </thead>
+              <tbody *ngFor="let data of cmplain,index as i">
+                <tr>
+                  <td>{{i+1}}</td>
+                  <td>{{data.category_name}}</td>
+                  <td>{{data.dept_name}}</td>
+                  <td>{{data.complaints_ref_no}}</td>
+                  <td>{{data.complaint_date}}</td>
+                  <td>{{data.complaints_desc}}</td>
+                </tr>
+              </tbody>
+              </table>
+        </div>
+      </div>
+  </div>
+
+
+
+

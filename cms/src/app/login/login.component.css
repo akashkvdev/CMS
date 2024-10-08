@@ -1,0 +1,29 @@
+section{
+    background:linear-gradient( rgba(0, 0, 0, 0.327), rgba(0, 0, 0, 0.567) ),
+     url('https://mdmsenquiry.com/wp-content/uploads/2023/08/Hi-Tech-Medical-College-and-Hospital-Bhubaneswar.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+ } 
+ .shadow-sm{
+     margin-top: 40px!important;
+ }
+
+@media(max-width:400px)
+{
+    h3,
+    .sx{
+        font-size: 18px;
+       margin-bottom: 12px !important;
+       
+    }
+    .btn,
+    label{
+        font-size: 14px;
+    }
+    
+    .shadow-sm{
+        margin-top: 50px!important;
+    }
+
+}

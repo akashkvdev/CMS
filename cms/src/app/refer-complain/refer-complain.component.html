@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col">
+      <h6 class="mt-4 text-dark" style="font-weight: 600;">REFERED<span class="text-danger">COMPLAINS</span></h6>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="bg-dark text-white">
+              <th>Slno</th>
+              <th>Category</th>
+              <th>Ref. Org. Name</th>
+              <th>Refer User Dept</th>
+              <th>Ref. No</th>
+              <th>Reffered By</th>
+              <th>Assign To</th>
+              <th>Assign Date</th>
+              <th>Message</th>
+              <th>Document</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="getallRefdComplaintdata && getallRefdComplaintdata.length > 0; else noData">
+            <tr *ngFor="let refdData of getallRefdComplaintdata; let i = index"> 
+              <td>{{i +1}}</td>
+              <td>{{refdData.category_name}}</td>
+              <td>{{refdData.org_name}}</td>
+              <td>{{refdData.dept_name}}</td>
+              <td>{{refdData.complaints_ref_no}}</td>
+              <td>{{refdData.entry_by_emp}}</td>
+              <td>{{refdData.assign_to_emp}}</td>
+              <td>{{refdData.action_date}}</td>
+              <td>{{refdData.action_details}}</td>
+
+              <td style="display: none;">{{refdData.complain_id}}</td>
+              <td style="display: none;" >{{refdData.action_type}}</td>
+              <td style="display: none;" >{{refdData.dept_id}}</td>
+              <td style="display: none;" >{{refdData.org_id}}</td>
+              <td style="display: none;" >{{refdData.assign_to}}</td>
+              <td style="display: none;" >{{refdData.action_details}}</td>
+
+              <td><u class="text-primary" style="cursor: pointer;" data-toggle="modal"
+                [attr.data-target]="'#documentModal' + i"><b>Document</b></u>
+              </td>
+
+              <td>{{refdData.complain_status_name}}</td>
+              <td>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <button class="btn btn-xs btn-success" style="font-size: 12px;" data-toggle="modal"
+                      data-target="#actionModal" (click)="updateAllAdata(refdData)">Update
+                    </button>
+                  </div>
+                  <div class="col-sm-6" [hidden]="emp_hide">
+                    <button class="btn btn-xs btn-secondary" style="font-size: 12px;"
+                    [routerLink]="['../assign_complain',refdData.complain_id]">Assign </button>
+                  </div>
+                </div>
+              </td>
+
+
+              <!-- document modal -->
+
+              <div class="modal fade" [id]="'documentModal' + i" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">ACTION &nbsp;&nbsp;</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <img [src]="imageDirectoryPath + refdData.document" [alt]="imageDirectoryPath + refdData.document" style="width: 200px; align-items: center;">
+                        <!-- <a href="{{imageDirectoryPath}}/{{refdData.complaints_file}}"
+                            target="_blank">{{refdData.complaints_file}}</a> -->
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <a [href]="imageDirectoryPath + refdData.document" download="{{ refdData.document }}"
+                      class="btn btn-primary" target="_blank">Save</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+  <!-- action Modal -->
+
+              <div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ACTION &nbsp;&nbsp;</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <select class="form-control mt-2" (change)="currentStatus($event)">
+                        <option  [value]="refdData.complaints_status_id">{{refdData.complain_status_name}}</option>
+                        <option *ngFor="let data of get_status" name="statusName"  [value]="data.id" >{{data.complain_status_name}}</option>
+                      </select>
+                      <input type="text" class="form-control mt-2"  name="newComment" [(ngModel)]="newComment" placeholder="comment">
+                      <input type="file" class="form-control mt-2"  (change)="UploadFile($event)" placeholder="Upload file">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="updateRefdData(refdData)">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </tr>
+          </ng-container>
+          <tr *ngIf="!getallRefdComplaintdata || getallRefdComplaintdata.length === 0">
+            <td colspan="12" align="center"><b>No data found</b></td>
+          </tr>
+          <ng-template #noData></ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

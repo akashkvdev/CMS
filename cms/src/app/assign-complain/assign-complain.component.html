@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row mt-5">
+      <div class="col">
+         <h6 class="mt-4 text-dark" style="font-weight: 600;">ASSIGN <span class="text-danger">COMPLAINS</span></h6>
+      </div>
+  </div>
+
+  <div class="row d-flex align-item-center justify-content-center">
+      <!---------toggle start-->
+  <div class="btn-show d-flex m-2">
+      <div class="btn-1 ps-3" [style.color]="color" [style.backgroundColor]="bccolor" [style.borderRadius]="brad"
+        [style.paddingRight]="pd" (click)="stClick()">
+        Employee
+      </div>
+      <div class="btn-1" [style.color]="color_ep" [style.backgroundColor]="bccolor_ep"
+        [style.borderRadius]="brad_ep" [style.paddingRight]="pd_ep" [style.paddingLeft]="pd_ep" (click)="epClick()">
+        Department
+      </div>
+    </div>
+    <!---------toggle ended-->
+  </div>
+
+  <div class="row mt-5" [hidden]="st">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+              <thead>
+                <tr class="bg-dark text-white">
+                  <th>Sl No</th>
+                  <th>Emp_name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let dt of all_emp;index as i">
+                  <td>{{i+1}}</td>
+                  <td>{{dt.EmpName}}</td>
+                  <td><input type="checkbox" [(ngModel)]="dt.isSelected" (change)="checkboxChanged(dt)"></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td ><button class="btn btn-secondary" style="cursor:pointer;" (click)="assigToemp()">Assign</button></td>
+                </tr>
+              </tbody>
+
+            </table>
+        </div>
+      </div>
+  </div>
+
+
+
+  <div class="row mt-5" [hidden]="ep">
+      <div class="col">
+          <form>
+              <div class="row">
+                  <div class="col-md-6">
+                      <select class="form-control" #orga (change)="orG(orga.value)">
+                          <option>--Choose Organisation--</option>
+                          <option *ngFor="let dt of all_course" [value]="[dt.OrganizationId,dt.OrganizationName]">{{dt.OrganizationName}}{{dt.OrganizationId}}</option>
+                      </select>
+                      <textarea class="form-control mt-2" #action_details id="form4Example3" (keyup)="action_detail(action_details.value)" rows="4" placeholder="message"></textarea>
+                  </div>
+                  <div class="col-md-6">
+                      <select class="form-control" #dept (change)="depT(dept.value)">
+                          <option>--Choose Department--</option>
+                          <option *ngFor="let dt of all_dpt" [value]="[dt.departmentId,dt.deptName]">{{dt.deptName}}</option>
+                      </select>
+                      <input type="file" class="form-control mt-4" (change)="getFile($event)">
+                      <button class="btn btn-secondary mt-2" style="float: right;" (click)="assignToDept()">Send</button>
+                  </div>
+
+              </div>
+          </form>
+      </div>
+  </div>
+
+
+
+
+
+</div>
+
+

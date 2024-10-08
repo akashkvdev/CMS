@@ -1,0 +1,5 @@
+@media print{
+    .print,.printcsv{
+        display: none;
+    }
+}

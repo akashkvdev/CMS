@@ -1,0 +1,7 @@
+.main-sidebar{
+    min-height: 100vh !important;
+}
+
+li{
+    cursor: pointer;
+}

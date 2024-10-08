@@ -1,0 +1,46 @@
+<div class="container">
+
+  <div class="row mt-5">
+    <div class="col-2">
+      <h6 class="mt-4 text-dark" style="font-weight: 600;">COMPLAINTS <span class="text-danger">TRACK</span></h6>
+    </div>
+    <div class="col-6"></div>
+    <div class="col-4 mt-4">
+      <input type="text" class="form-control" placeholder="Search By Reference No"  #search (keyup)="find(search.value)" aria-label="Input group example" aria-describedby="btnGroupAddon">
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col">
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="bg-dark text-white">
+              <th>Sl No</th>
+              <th>Refrence No</th>
+              <th>Complained Date</th>
+              <th>Action</th>
+              <!-- <th>Action</th> -->
+            </tr>
+          </thead>
+          <tbody *ngIf="data.length!=0;else block">
+            <tr *ngFor="let d of data|paginate:{itemsPerPage: itemsPerPage, currentPage: p, totalItems: data.length };index as i">
+              <td>{{ (p - 1) * itemsPerPage + i + 1 }}</td>
+              <td>{{d.complaints_ref_no}}</td>
+              <td>{{d.complaint_date}}</td>
+              <td><a [routerLink]="['../track_complain',d.id]"><button class="btn text-primary"><i class="fa-solid fa-eye"></i></button></a></td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #block>
+          <tr>
+            <td colspan="3" class="text-danger" style="text-align: center;"><b>No data Available</b></td>
+          </tr>
+        </ng-template>
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+</div>

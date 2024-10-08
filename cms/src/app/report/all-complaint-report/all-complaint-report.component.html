@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col">
+      <h6 class="mt-4 text-dark" style="font-weight: 600;">ALL <span class="text-danger">COMPLAINS REPORT</span></h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-6"></div>
+
+    <div class="col col-4 mt-5">
+      <input type="text" class="form-control print" placeholder="Search By Reference No" #search (keyup)="find(search.value)" aria-label="Input group example" aria-describedby="btnGroupAddon">
+    </div>
+
+    <div class="col col-2 printcsv mt-5">
+      <a><i class="fa-solid fa-file-excel fa-2xl p-2" style="color:green;"></i></a>
+      <a (click)="printDiv()"> <i class="fa-solid fa-print fa-2xl p-2"></i></a>
+    </div>
+  </div>
+
+  <div class="row mt-2" #printableDiv>
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="bg-dark text-white">
+              <th>Sl No</th>
+              <th>Complaint Category</th>
+              <th>Department Name</th>
+              <th>Refrence No</th>
+              <th>Complain Date</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ac of allComplaints|paginate:{itemsPerPage: itemsPerPage, currentPage: p, totalItems: allComplaints.length }; let i=index">
+              <td>{{ (p - 1) * itemsPerPage + i + 1 }}</td>
+              <td>{{ac.category_name ?? 'NA'}}</td>
+              <td>{{ac.dept_name ?? 'NA'}}</td>
+              <td>{{ac.complaints_ref_no ?? 'NA'}}</td>
+              <td>{{ac.complaint_date ?? 'NA'}}</td>
+              <td>{{ac.complaints_desc ?? 'NA'}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls class="print" (pageChange)="onPageChange($event)"></pagination-controls>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">View Complain   &nbsp;&nbsp;<i class="fa-solid fa-print"></i></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <p>Complain_id:</p>
+              <p>Complained_by:</p>
+              <p>Document: <b class="text-primary"><u>Download</u></b></p>
+              <p>Department:</p>
+            </div>
+            <div class="col-md-6">
+              <p>Date-of-complain:</p>
+              <p>Desc:</p>
+              <p>Status:</p>
+              <p>Action:</p>
+            </div>
+          </div>
+          <div class="row">
+            <select  class="form-control mt-2">
+              <option>In process</option>
+              <option>Solved</option>
+            </select>
+            <input type="text" class="form-control mt-2" placeholder="comment">
+            <input type="file" class="form-control mt-2" placeholder="Upload file">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
